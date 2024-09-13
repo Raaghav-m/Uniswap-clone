@@ -1,10 +1,11 @@
-import { ethers } from "ethers";
+import { JsonRpcProvider } from "ethers";
 import CurrentConfig from "../../CurrentConfig";
 
+// Provider Functions
+
 export async function getProvider() {
-  console.log(ethers);
-  let x = new ethers.JsonRpcProvider(CurrentConfig.rpc.mainnet);
-  console.log(ethers.JsonRpcProvider.network);
+  const x = new JsonRpcProvider(CurrentConfig.rpc.mainnet);
+  console.log(x._detectNetwork);
   console.log(x);
   return x;
 }
