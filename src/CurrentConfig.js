@@ -6,11 +6,10 @@ const CurrentConfig = {
   rpc: {
     local: "http://localhost:8545",
     mainnet:
-      "https://eth-mainnet.g.alchemy.com/v2/Kpu3KPJHC3KkoxHMGfD3VLkgRoCzIIBE",
+      "https://eth-mainnet.g.alchemy.com/v2/7LHopYRpqnEpAavMFHoWggsnWgle3GBg",
   },
   tokens: {
     in: WETH_TOKEN,
-    amountIn: 1000,
     out: DAI_TOKEN,
     poolFee: FeeAmount.MEDIUM,
   },

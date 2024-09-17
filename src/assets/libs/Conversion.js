@@ -1,8 +1,18 @@
 import { ethers } from "ethers";
 
-export function toReadableAmount(amount) {
-  return ethers.parseUnits(amount.toString(), 18);
+const READABLE_FORM_LEN = 4;
+
+export function fromReadableAmount(amount, decimals) {
+  console.log(amount.toString(), decimals);
+  const x = ethers.utils.parseUnits(amount.toString(), decimals);
+  return x;
 }
-export function fromReadableAmount(amount) {
-  return ethers.formatUnits(amount, 18).slice(0, 4);
+
+export function toReadableAmount(rawAmount, decimals) {
+  console.log(rawAmount, decimals);
+  const x = ethers.utils
+    .formatUnits(rawAmount, decimals)
+    .slice(0, READABLE_FORM_LEN);
+  console.log(x);
+  return x;
 }

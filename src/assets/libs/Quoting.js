@@ -1,5 +1,6 @@
 import React from "react";
 import Quoter from "@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json";
+import IUniswapV3PoolABI from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
 import {
   QUOTER_CONTRACT_ADDRESS,
   POOL_FACTORY_CONTRACT_ADDRESS,
@@ -9,31 +10,29 @@ import { getProvider } from "./Provider";
 import { toReadableAmount, fromReadableAmount } from "./Conversion";
 import CurrentConfig from "../../CurrentConfig";
 import { computePoolAddress } from "@uniswap/v3-sdk";
-import IUniswapV3PoolABI from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
 
-export default async function quote(value) {
-  let quoterContract = new ethers.Contract(
+export async function quote(amount) {
+  const quoterContract = new ethers.Contract(
     QUOTER_CONTRACT_ADDRESS,
     Quoter.abi,
-    await getProvider()
+    getProvider()
   );
 
-  let amount = toReadableAmount(value);
-  let poolConstants = await getPoolConstants();
-  try {
-    let quoteAmount = await quoterContract.callStatic.quoteExactInputSingle(
-      poolConstants.token0,
-      poolConstants.token1,
-      poolConstants.fee,
-      amount.toString(),
-      0
-    );
-    let quoteVal = fromReadableAmount(quoteAmount);
-    return quoteVal;
-  } catch (err) {
-    console.log(err);
-    return;
-  }
+  console.log(quoterContract);
+
+  const poolConstants = await getPoolConstants();
+  console.log(poolConstants.token0, poolConstants.token1);
+
+  const quotedAmountOut = await quoterContract.callStatic.quoteExactInputSingle(
+    poolConstants.token0,
+    poolConstants.token1,
+    poolConstants.fee,
+    fromReadableAmount(amount, CurrentConfig.tokens.in.decimals).toString(),
+    0
+  );
+  console.log(quotedAmountOut);
+
+  return toReadableAmount(quotedAmountOut, CurrentConfig.tokens.out.decimals);
 }
 
 async function getPoolConstants() {

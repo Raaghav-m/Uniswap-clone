@@ -26,7 +26,7 @@ export const WETH_TOKEN = new Token(
 export const DAI_TOKEN = new Token(
   ChainId.MAINNET,
   "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-  18,
+  6,
   "DAI",
   "DAI"
 );

@@ -1,17 +1,18 @@
 import { useRef, useState } from "react";
 import "./App.css";
-import Quoting from "./assets/libs/Quoting";
+import { quote } from "./assets/libs/Quoting";
 // import { ConnectButton } from "@web3uikit/web3";
 
 function App() {
   let inputVal = useRef(null);
-  let { expectedVal, setExpectedVal } = useState(0);
+  let [expectedVal, setExpectedVal] = useState(0);
 
   async function handleInputChange() {
     let value = inputVal.current.value;
     console.log(inputVal.current.value);
-    let quoteAmount = await Quoting(value);
+    let quoteAmount = await quote(value);
     console.log(quoteAmount);
+    setExpectedVal(quoteAmount);
   }
 
   return (
