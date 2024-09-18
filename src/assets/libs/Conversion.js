@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 const READABLE_FORM_LEN = 4;
 
 export function fromReadableAmount(amount, decimals) {
-  console.log(amount.toString(), decimals);
+  console.log(amount, decimals);
   const x = ethers.utils.parseUnits(amount.toString(), decimals);
   return x;
 }

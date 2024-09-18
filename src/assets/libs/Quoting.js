@@ -18,10 +18,7 @@ export async function quote(amount) {
     getProvider()
   );
 
-  console.log(quoterContract);
-
   const poolConstants = await getPoolConstants();
-  console.log(poolConstants.token0, poolConstants.token1);
 
   const quotedAmountOut = await quoterContract.callStatic.quoteExactInputSingle(
     poolConstants.token0,
@@ -30,19 +27,17 @@ export async function quote(amount) {
     fromReadableAmount(amount, CurrentConfig.tokens.in.decimals).toString(),
     0
   );
-  console.log(quotedAmountOut);
 
   return toReadableAmount(quotedAmountOut, CurrentConfig.tokens.out.decimals);
 }
 
-async function getPoolConstants() {
+export async function getPoolConstants() {
   const currentPoolAddress = computePoolAddress({
     factoryAddress: POOL_FACTORY_CONTRACT_ADDRESS,
     tokenA: CurrentConfig.tokens.in,
     tokenB: CurrentConfig.tokens.out,
     fee: CurrentConfig.tokens.poolFee,
   });
-  console.log(currentPoolAddress);
 
   const poolContract = new ethers.Contract(
     currentPoolAddress,

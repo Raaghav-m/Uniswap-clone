@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
 import "./App.css";
 import { quote } from "./assets/libs/Quoting";
+import { executeTrade, createTrade } from "./assets/libs/Trading";
 // import { ConnectButton } from "@web3uikit/web3";
 
 function App() {
+  let [trade, setTrade] = useState();
   let inputVal = useRef(null);
   let [expectedVal, setExpectedVal] = useState(0);
 
@@ -13,6 +15,10 @@ function App() {
     let quoteAmount = await quote(value);
     console.log(quoteAmount);
     setExpectedVal(quoteAmount);
+  }
+  async function handleSwap() {
+    setTrade(await createTrade(inputVal.current.value));
+    await executeTrade(trade);
   }
 
   return (
@@ -38,7 +44,9 @@ function App() {
           <label for="input2">Token 2</label>
           <input type="text" id="input2" placeholder={expectedVal} />
         </div>
-        <button type="submit">Swap</button>
+        <button type="submit" onClick={handleSwap}>
+          Swap
+        </button>
       </div>
     </>
   );
